@@ -64,18 +64,46 @@ const images = [
   },
 ];
 
-const ul = document.querySelector('ul');
-const arr = [];
-for (let i = 0; i < images.length; i++) {
-    const liElem = document.createElement('li');
-    const aElem = document.createElement('a');
-    const imgElem = document.createElement('img');
-    imgElem.src = images[i].preview;
-    imgElem.alt = images[i].description;
-    imgElem.dataset.source = images[i].original;
-    aElem.href = images[i].original;
-    aElem.appendChild(imgElem);
-    liElem.appendChild(aElem);
-    arr.push(liElem);
+const gallery = document.querySelector(".gallery");
+let lightbox;
+gallery.addEventListener("click", (event) => {
+  event.preventDefault();
+  if (event.target.classList.contains("gallery-image")) {
+    const originalSrc = event.target.dataset.source;
+    lightbox = basicLightbox.create(
+      `<img width="1112" height="640" src="${originalSrc}">`
+    );
+    lightbox.show();
+    document.addEventListener("keydown", handleKeyDown);
+  }
+});
+
+function handleKeyDown(event) {
+  if (event.key === "Escape" || event.code === "Escape") {
+    closeLightbox();
+  }
 }
-ul.append(...arr);
+
+function closeLightbox() {
+  if (lightbox && lightbox.visible()) {
+    lightbox.close();
+    document.removeEventListener("keydown", handleKeyDown);
+  }
+}
+
+const markup = images
+  .map(
+    (image) => `<li class="gallery-item">
+  <a class="gallery-link" href="${image.original}">
+    <img
+      class="gallery-image"
+      src="${image.preview}"
+      data-source="${image.original}"
+      alt="${image.description}"
+    />
+  </a>
+</li>`
+  )
+  .join("");
+
+gallery.innerHTML = markup;

@@ -1,29 +1,27 @@
-.body {
-
+body {
+    box-sizing: border-box;
+    margin: 0 auto;
 }
 
-ul {
-margin: 0;
-padding: 0;
-list-style: none;
-}
-
-a {
-    text-decoration: none;
-    color: currentColor;
-}
-
-img {
-width: 360px;
-height: 200px;
-flex-shrink: 0;
+li {
+    list-style-type: none;
 }
 
 .gallery {
     display: flex;
     flex-wrap: wrap;
+    gap: 24px;
+    margin: 0;
+    padding: 24px 156px;
     justify-content: center;
-    align-items: center;
-    gap:24px;
+}
 
+.gallery-image {
+    width: 360px;
+    height: 200px;
+    flex-shrink: 0;
+}
+
+.gallery-image:hover {
+    transform: scale(1.04);
 }
